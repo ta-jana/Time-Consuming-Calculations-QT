@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "factorial.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -15,7 +16,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_countFactorial_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    Factorial factCounting;
 };
 #endif // MAINWINDOW_H

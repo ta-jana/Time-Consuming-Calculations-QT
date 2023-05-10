@@ -5,13 +5,16 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <QDebug>
 
-Factorial::Factorial(int number):destroy(false),pause(false)
+Factorial::Factorial():destroy(false),pause(false)
+{   }
+
+long double Factorial::computeFactorial(int number)
 {
-
     int num = number;
-    int numThreads = omp_get_num_procs()/2;
-
+    //int numThreads = omp_get_num_procs()/2;
+    int numThreads = 2;
     int sectionSize = std::floor(num / numThreads);
 
     int sectionStart[numThreads];
@@ -25,40 +28,44 @@ Factorial::Factorial(int number):destroy(false),pause(false)
     //pro zbytek
     sectionEnd[numThreads - 1] = num;
 
-    int sections[numThreads];
+    long double sections[numThreads];
 
-#pragma omp parallel shared(destroy,pause)
-{
     #pragma omp parallel num_threads(numThreads)
     {
 
         int threadId = omp_get_thread_num();
-        sections[threadId] = computeFactorial(sectionStart[threadId], sectionEnd[threadId]);
+         qDebug() << "Parallel code thread   is: " << threadId << "..." ;
+        sections[threadId] = _computeFactorial(sectionStart[threadId], sectionEnd[threadId]);
     }
-}
+    #pragma omp barrier
 
-    int result = 0;
+
+    long double result = 1;
     for(int i = 0; i < numThreads; i++){
         result *= sections[i];
+
     }
 
-    printf("Factorial is : %d",result);
-
-
+    return result;
 }
 
-int Factorial::computeFactorial(int start, int end)
+
+
+long double Factorial::_computeFactorial(int start, int end)
 {
-    int result = 1;
+    long double result = 1;
     for (int i = start; i <= end; i++) {
         result *= i;
-        while(pause){
+/*        while(pause){
             //sleep
         }
         if(destroy){
             return result;
         }
+        */
     }
     return result;
 }
+
+
 

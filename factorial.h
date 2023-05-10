@@ -5,10 +5,15 @@
 class Factorial
 {
 public:
-    Factorial(int number);
-    int computeFactorial(int start, int end);
+    Factorial();
+
+    long double computeFactorial(int number);
     bool destroy;
     bool pause;
+
+private:
+    long double _computeFactorial(int start, int end);
+
 };
 
 #endif // FACTORIAL_H
