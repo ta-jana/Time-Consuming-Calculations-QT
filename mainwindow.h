@@ -19,9 +19,16 @@ public:
 private slots:
     void on_countFactorial_clicked();
 
+    void on_pauseFactorial_clicked();
+
+    void on_stornoFactorial_clicked();
+
+    void on_progressBar_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 
-    Factorial factCounting;
+    Factorial *factCounting;
+
 };
 #endif // MAINWINDOW_H
